@@ -1,4 +1,5 @@
 import { ErrorDeRed, ErrorHttp, ErrorDeDatos } from "./errors.js";
+import { leerCache, guardarCache } from "./cache.js";
 
 const URL_BASE = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_";
 
@@ -18,7 +19,7 @@ export function normalizarSismo({ id, properties, geometry }) {
     };
 }
 
-export async function obtenerSismos(periodo) {
+async function pedirSismos(periodo) {
     let respuesta;
     try {
         respuesta = await fetch(`${URL_BASE}${periodo}.geojson`);
@@ -43,4 +44,15 @@ export async function obtenerSismos(periodo) {
         .filter((feature) => feature !== null && typeof feature === "object")
         .map(normalizarSismo)
         .filter((sismo) => sismo !== null);
+}
+
+export async function obtenerSismos(periodo) {
+    const clave = `sismos-${periodo}`;
+
+    const enCache = leerCache(clave);
+    if (Array.isArray(enCache)) return enCache;
+
+    const sismos = await pedirSismos(periodo);
+    guardarCache(clave, sismos);
+    return sismos;
 }
