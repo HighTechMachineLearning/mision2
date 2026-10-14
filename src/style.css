@@ -1,8 +1,29 @@
+:root {
+    --color-leve: #2e9e5b;
+    --color-moderado: #e08a00;
+    --color-fuerte: #d62839;
+    --color-fondo: #f5f6f8;
+    --color-tarjeta: #ffffff;
+    --color-texto: #1d2330;
+    --color-texto-suave: #3f4757;
+    --color-borde: #dde1e8;
+    --radio: 0.75rem;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
 body {
     font-family: system-ui, sans-serif;
     max-width: 60rem;
     margin: 0 auto;
     padding: 1rem;
+    background: var(--color-fondo);
+    color: var(--color-texto);
+    line-height: 1.5;
 }
 
 [hidden] {
@@ -12,4 +33,199 @@ body {
 ul {
     list-style: none;
     padding: 0;
+}
+
+/* Cabecera */
+header {
+    margin-bottom: 1.5rem;
+}
+
+header h1 {
+    margin: 0;
+}
+
+header p {
+    margin: 0.25rem 0 0;
+    color: var(--color-texto-suave);
+}
+
+/* Filtros */
+form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--color-tarjeta);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio);
+}
+
+form label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+form select,
+form input[type="search"] {
+    padding: 0.4rem 0.5rem;
+    font: inherit;
+    font-weight: normal;
+    border: 1px solid var(--color-borde);
+    border-radius: 0.4rem;
+}
+
+/* Estadísticas */
+section {
+    margin-top: 1.5rem;
+}
+
+#estadisticas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+    gap: 0.75rem;
+    margin: 0;
+}
+
+#estadisticas div {
+    padding: 0.75rem;
+    background: var(--color-tarjeta);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio);
+    text-align: center;
+}
+
+#estadisticas dt {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-texto-suave);
+}
+
+#estadisticas dd {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+#stat-leves {
+    color: var(--color-leve);
+}
+
+#stat-moderados {
+    color: var(--color-moderado);
+}
+
+#stat-fuertes {
+    color: var(--color-fuerte);
+}
+
+/* Estado (cargando / error / vacío) */
+#estado {
+    margin: 1.5rem 0;
+    text-align: center;
+    color: var(--color-texto-suave);
+}
+
+#estado[role="alert"] {
+    color: var(--color-fuerte);
+    font-weight: 600;
+}
+
+#estado button {
+    margin-left: 0.5rem;
+    padding: 0.35rem 0.9rem;
+    font: inherit;
+    cursor: pointer;
+    color: #fff;
+    background: var(--color-fuerte);
+    border: none;
+    border-radius: 0.4rem;
+}
+
+/* Lista de tarjetas */
+#lista-sismos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.sismo {
+    --color-nivel: var(--color-leve);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    height: 100%;
+    padding: 1rem;
+    background: var(--color-tarjeta);
+    border: 1px solid var(--color-borde);
+    border-left: 0.35rem solid var(--color-nivel);
+    border-radius: var(--radio);
+}
+
+.sismo[data-nivel="moderado"] {
+    --color-nivel: var(--color-moderado);
+}
+
+.sismo[data-nivel="fuerte"] {
+    --color-nivel: var(--color-fuerte);
+}
+
+.sismo__magnitud {
+    width: fit-content;
+    margin: 0;
+    padding: 0.1rem 0.6rem;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #fff;
+    background: var(--color-nivel);
+    border-radius: 0.5rem;
+}
+
+.sismo__lugar {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.sismo__detalles {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--color-texto-suave);
+}
+
+.sismo__tsunami {
+    width: fit-content;
+    margin: 0;
+    padding: 0.15rem 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #7a1020;
+    background: #fde4e7;
+    border-radius: 0.4rem;
+}
+
+.sismo__enlace {
+    margin-top: auto;
+    font-size: 0.9rem;
+}
+
+/* Pie */
+footer {
+    padding-top: 1rem;
+    font-size: 0.85rem;
+    color: var(--color-texto-suave);
+    border-top: 1px solid var(--color-borde);
+}
+
+/* Pantallas pequeñas */
+@media (max-width: 30rem) {
+    form {
+        flex-direction: column;
+    }
+
+    #lista-sismos {
+        grid-template-columns: 1fr;
+    }
 }
