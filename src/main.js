@@ -15,6 +15,7 @@ const estado = {
     magnitudMinima: 2.5,
     texto: "",
     orden: "fecha",
+    huboError: false,
 };
 
 const formulario = document.querySelector("form");
@@ -40,6 +41,8 @@ function mensajeParaUsuario(error) {
 }
 
 function actualizarVista() {
+    if (estado.huboError) return;
+
     const filtrados = filtrarSismos(estado.sismos, estado);
     const ordenados = ordenarSismos(filtrados, estado.orden);
 
@@ -54,11 +57,14 @@ function actualizarVista() {
 
 async function cargarSismos() {
     mostrarCargando();
+    estado.sismos = [];
+    estado.huboError = false;
     selectorPeriodo.disabled = true;
     try {
         estado.sismos = await obtenerSismos(estado.periodo);
         actualizarVista();
     } catch (error) {
+        estado.huboError = true;
         mostrarError(mensajeParaUsuario(error), cargarSismos);
     } finally {
         selectorPeriodo.disabled = false;
