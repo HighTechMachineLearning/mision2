@@ -1,0 +1,15 @@
+body {
+    font-family: system-ui, sans-serif;
+    max-width: 60rem;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+[hidden] {
+    display: none;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}

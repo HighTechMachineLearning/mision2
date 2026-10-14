@@ -1,16 +1,104 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/src/style.css" />
     <script type="module" src="/src/main.js"></script>
-    <title>mision2</title>
+    <title>Sismo Radar</title>
 </head>
 
 <body>
+    <header>
+        <h1>🌍 Sismo Radar</h1>
+        <p>Terremotos M2.5+ · USGS</p>
+    </header>
 
+    <form aria-label="Filtros de sismos">
+        <label>
+            Periodo
+            <select id="periodo" name="periodo">
+                <option value="hour">Última hora</option>
+                <option value="day" selected>Últimas 24 h</option>
+                <option value="week">Últimos 7 días</option>
+                <option value="month">Últimos 30 días</option>
+            </select>
+        </label>
+
+        <label>
+            Magnitud mínima
+            <input id="magnitud-minima" name="magnitudMinima" type="range" min="2.5" max="8" step="0.1" value="2.5">
+            <output id="valor-magnitud-minima">2.5</output>
+        </label>
+
+        <label>
+            Lugar
+            <input id="texto" name="texto" type="search" placeholder="Ej: Japan">
+        </label>
+
+        <label>
+            Ordenar por
+            <select id="orden" name="orden">
+                <option value="fecha" selected>Más recientes</option>
+                <option value="magnitud">Mayor magnitud</option>
+            </select>
+        </label>
+    </form>
+
+    <section aria-labelledby="titulo-estadisticas">
+        <h2 id="titulo-estadisticas">Estadísticas</h2>
+        <dl id="estadisticas">
+            <div>
+                <dt>Total</dt>
+                <dd id="stat-total">–</dd>
+            </div>
+            <div>
+                <dt>Máxima</dt>
+                <dd id="stat-maxima">–</dd>
+            </div>
+            <div>
+                <dt>Media</dt>
+                <dd id="stat-media">–</dd>
+            </div>
+            <div>
+                <dt>Leves</dt>
+                <dd id="stat-leves">–</dd>
+            </div>
+            <div>
+                <dt>Moderados</dt>
+                <dd id="stat-moderados">–</dd>
+            </div>
+            <div>
+                <dt>Fuertes</dt>
+                <dd id="stat-fuertes">–</dd>
+            </div>
+        </dl>
+    </section>
+
+    <main>
+        <p id="estado" role="status"></p>
+        <ul id="lista-sismos"></ul>
+    </main>
+
+    <footer>
+        <p>Datos: <a href="https://earthquake.usgs.gov/" target="_blank" rel="noopener">USGS Earthquake Hazards Program</a></p>
+    </footer>
+
+    <template id="plantilla-sismo">
+        <li>
+            <article class="sismo">
+                <p class="sismo__magnitud"></p>
+                <h2 class="sismo__lugar"></h2>
+                <p class="sismo__detalles">
+                    <time class="sismo__fecha"></time> ·
+                    <span class="sismo__profundidad"></span>
+                </p>
+                <p class="sismo__tsunami" hidden>⚠ Aviso de tsunami</p>
+                <a class="sismo__enlace" target="_blank" rel="noopener">Ver en USGS →</a>
+            </article>
+        </li>
+    </template>
 </body>
 
 </html>
