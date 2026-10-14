@@ -17,6 +17,13 @@ const estado = {
     orden: "fecha",
 };
 
+const formulario = document.querySelector("form");
+const selectorPeriodo = document.querySelector("#periodo");
+const selectorMagnitudMinima = document.querySelector("#magnitud-minima");
+const valorMagnitudMinima = document.querySelector("#valor-magnitud-minima");
+const campoTexto = document.querySelector("#texto");
+const selectorOrden = document.querySelector("#orden");
+
 function mensajeParaUsuario(error) {
     if (error instanceof ErrorDeRed) {
         return "No se pudo conectar con el servidor. Comprueba tu conexión a internet.";
@@ -47,12 +54,39 @@ function actualizarVista() {
 
 async function cargarSismos() {
     mostrarCargando();
+    selectorPeriodo.disabled = true;
     try {
         estado.sismos = await obtenerSismos(estado.periodo);
         actualizarVista();
     } catch (error) {
         mostrarError(mensajeParaUsuario(error), cargarSismos);
+    } finally {
+        selectorPeriodo.disabled = false;
     }
 }
+
+// Evita que pulsar enter en el buscador recargue la página
+formulario.addEventListener("submit", (evento) => evento.preventDefault());
+
+selectorPeriodo.addEventListener("change", () => {
+    estado.periodo = selectorPeriodo.value;
+    cargarSismos();
+});
+
+selectorMagnitudMinima.addEventListener("input", () => {
+    estado.magnitudMinima = Number(selectorMagnitudMinima.value);
+    valorMagnitudMinima.textContent = selectorMagnitudMinima.value;
+    actualizarVista();
+});
+
+campoTexto.addEventListener("input", () => {
+    estado.texto = campoTexto.value;
+    actualizarVista();
+});
+
+selectorOrden.addEventListener("change", () => {
+    estado.orden = selectorOrden.value;
+    actualizarVista();
+});
 
 cargarSismos();
